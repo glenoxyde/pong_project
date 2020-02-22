@@ -1,5 +1,6 @@
 ### ignoring binaries folder
 bin/
+obj/
 .DS_Store
 
 
