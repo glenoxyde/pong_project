@@ -18,12 +18,12 @@
 int main(){
 
     struct joueur * player = (struct joueur *)malloc(sizeof(struct joueur)); //raquette joueur1
-    struct joueur * IA = (struct joueur *)malloc(sizeof(struct joueur)); //raquette IA/joueur2
+    //struct joueur * IA = (struct joueur *)malloc(sizeof(struct joueur)); //raquette IA/joueur2
     struct ball * ball = (struct ball *)malloc(sizeof(struct ball)); //la balle donc
 
 
     int d_player;
-    int d_IA;
+    //int d_IA;
 
     //le fichier map sera à transférer dans la mémoire du mC
     FILE * map;
