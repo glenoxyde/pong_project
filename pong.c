@@ -9,10 +9,7 @@
 #include <ncurses.h>
 #include "pong.h"
 
-//---------------constantes globales
-//const int L = 47; //nombre de lignes
-//const int C = 30; //nombre de colonnes
-//---------------variables globales
+
 
 
 int main(){
