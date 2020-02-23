@@ -15,19 +15,22 @@
 //---------------variables globales
 
 
-int main(){
+int main(int argc, char * argv[]){
 
     struct joueur * player = (struct joueur *)malloc(sizeof(struct joueur)); //raquette joueur1
     //struct joueur * IA = (struct joueur *)malloc(sizeof(struct joueur)); //raquette IA/joueur2
     struct ball * ball = (struct ball *)malloc(sizeof(struct ball)); //la balle donc
 
+    int n=argc;
+	n+=1;
 
-    int d_player;
+
+    char d_player;
     //int d_IA;
 
     //le fichier map sera à transférer dans la mémoire du mC
     FILE * map;
-    map = fopen("map.txt", "r");
+    map = fopen(argv[1], "r");
 
  
     
@@ -50,6 +53,8 @@ int main(){
         }
     }
     
+
+	//on initialise la position et vitesse de la balle
     ball->pos_x=3;
     ball->pos_y=4;
     ball->dir_x=2;
@@ -58,25 +63,18 @@ int main(){
 
 
     
-    map_array[ball->pos_y][ball->pos_x]='O';
-            //on lit le tableau
-        for (int i=0;i<L;++i){
-            for (int j=0;j<C;++j){
-                printf("%c", map_array[i][j]);
-            }
-        }
-        printf("\n");
+
     
-
-int k=0;
-
-
-
     player->left =C-8; //indice de la colonne avec l'extrémité gauche de la plateforme du bas
     player->right =C-2; //idem pour l'extrémité droite
-    
-    while (k<100){
-        k++;
+
+
+
+	        printf("0/!|/!|/!|/!|/!|/!|/!|/!|/!|\n");
+
+    int k=0;
+   while(d_player!='o'){
+	k++;
         //on lit le tableau
         for (int i=0;i<L;++i){
             for (int j=0;j<C;++j){
@@ -85,7 +83,7 @@ int k=0;
         }
         printf("\n");
 
-        
+
         
         //on regarde autour de la balle
         ball->right=map_array[ball->pos_y][ball->pos_x+1];
@@ -138,7 +136,7 @@ int k=0;
         
 
         //on met la position du joueur à jour 
-        d_player=direction();
+        scanf(" %c", &d_player);
         if (d_player=='a'){
             if (player->left>2){
                 map_array[L-2][player->left-1]='n';
@@ -158,14 +156,18 @@ int k=0;
             } else {
                 printf("ne peut pas aller plus loin à gauche");
             }
-        } else {printf("néant\n");}
-        if (d_player=='q') break;
-        
-        printf("3/!|/!|/!|/!|/!|/!|/!|/!|/!|\n");
-        }
+        } 
+	if (d_player=='q') break;
+	if (d_player=='s') printf("ne se passe rien");
+	
+	//sleep(1);
+	
+	printf("je suis passé %d fois dans le while 1\n", k);
+	
+        } 
 
     
-
+        printf("3/!|/!|/!|/!|/!|/!|/!|/!|/!|\n");
 
 
     

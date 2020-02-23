@@ -1,17 +1,17 @@
 CC= gcc
-CFLGS= -W -Wall -Werror
-EXEC= pong
+CFLGS= -W -Wall
+EXEC= app
 BIN=./bin
 OBJ=./obj
 
 
 all = $(EXEC)
 
-$(EXEC): $(OBJ)/pong.o
-	@$(CC) -o $(BIN)/pong $(OBJ)/pong.o 
+$(EXEC): $(OBJ)/*.o
+	@$(CC) -o $(BIN)/$(EXEC) $(OBJ)/*.o 
 
-$(OBJ)/pong.o: pong.c pong.h
-	$(CC) -o $(OBJ)/pong.o -c pong.c $(CFLGS)
+$(OBJ)/*.o: *.c *.h
+	$(CC) -o $(OBJ)/obj.o -c *.c $(CFLGS)
 
 clean:
 	rm -rf *.o
