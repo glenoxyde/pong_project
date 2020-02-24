@@ -7,11 +7,14 @@ SYSLIBS= -lncurses
 
 all = $(EXEC)
 
-$(EXEC): $(OBJ)/*.o
-	@$(CC) -o $(BIN)/$(EXEC) $(OBJ)/*.o $(SYSLIBS)
+$(EXEC): $(OBJ)/pong.o $(OBJ)/ponglib.o
+	@$(CC) -o $(BIN)/$(EXEC) $(OBJ)/pong.o $(OBJ)/ponglib.o $(SYSLIBS)
 
-$(OBJ)/*.o: *.c *.h
-	$(CC) -o $(OBJ)/obj.o -c *.c $(CFLGS) 
+$(OBJ)/ponglib.o: ponglib.c 
+	$(CC) -o $(OBJ)/ponglib.o -c ponglib.c $(CFLGS) 
+
+$(OBJ)/pong.o: pong.c ponglib.c
+	$(CC) -o $(OBJ)/pong.o -c pong.c $(CFLGS)
 
 clean:
 	rm -rf *.o

@@ -11,7 +11,7 @@
 
 
 //structure qui représente un joueur (plateforme, score?, bonus?)
-struct joueur {
+struct platform {
     int left;
     int right;
 };
@@ -33,13 +33,9 @@ struct ball {
 typedef struct ball * ball;
 
 
-
-
-
-
-
-//fonction qui renverra au main la direction que le joueur à choisi. 
-char direction();
-//void fill_map_array(char*** , FILE*);
-//void print_map_array(char**);
-//void clear_map_array(char***);
+void printmap(char **);
+void move_ball(char **, ball);
+void move_player1(char ** , joueur);
+void init(char **, joueur, ball, FILE*, bool*);
+void dir_ball(char **, ball, bool *);
+void freemap(char**);
