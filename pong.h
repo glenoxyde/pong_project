@@ -4,6 +4,11 @@
 #define L 30 //lignes
 #define S 7 //platform size
 
+#define PLAYER1 'n'
+#define PLAYER2 'u'
+#define SIDEWALL '*'
+#define FRONTWALL '-'
+
 
 //structure qui représente un joueur (plateforme, score?, bonus?)
 struct joueur {

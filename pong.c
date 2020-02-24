@@ -1,42 +1,41 @@
-#include <stdio.h>
+#include <stdio.h> //printf, fopen
 #include <math.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <string.h>
-#include <ctype.h> 
-#include <unistd.h>
-#include <stdbool.h>
-#include <ncurses.h>
+#include <stdlib.h> //malloc
+#include <time.h> //time_t, timediff 
+#include <string.h> //manipulation des chaines
+//#include <ctype.h> pour identifier un élément 
+#include <unistd.h> //misc
+#include <stdbool.h> //bool
+#include <ncurses.h> //printw, initscr, cbreak, noecho, endwin
 #include "pong.h"
 
-//---------------constantes globales
-//const int L = 47; //nombre de lignes
-//const int C = 30; //nombre de colonnes
-//---------------variables globales
 
 
-int main(int argc, char * argv[]){
+int main(void){
 
     struct joueur * player = (struct joueur *)malloc(sizeof(struct joueur)); //raquette joueur1
     //struct joueur * IA = (struct joueur *)malloc(sizeof(struct joueur)); //raquette IA/joueur2
     struct ball * ball = (struct ball *)malloc(sizeof(struct ball)); //la balle donc
 
-    int n=argc;
-	n+=1;
-
-
-    char d_player;
+    char d_player = 's';
     //int d_IA;
+
+    initscr();
+    cbreak();
+    //noecho();
+
+    clear();
 
     //le fichier map sera à transférer dans la mémoire du mC
     FILE * map;
-    map = fopen(argv[1], "r");
+    map = fopen("map.txt", "r");
 
- 
+
     
     
     //création du tableau
     char ** map_array;
+
     //on alloue un espace mémoire pour stocker les pointeurs sur chaque lignes (il y en a L)
     map_array = malloc(L*sizeof(map_array));
 	
@@ -57,10 +56,10 @@ int main(int argc, char * argv[]){
 	//on initialise la position et vitesse de la balle
     ball->pos_x=3;
     ball->pos_y=4;
-    ball->dir_x=2;
+    ball->dir_x=1;
     ball->dir_y=1;
 
-
+    int V = 1; //multiplieur pour la vitesse
 
     
 
@@ -70,19 +69,28 @@ int main(int argc, char * argv[]){
 
 
 
-	        printf("0/!|/!|/!|/!|/!|/!|/!|/!|/!|\n");
+
 
     int k=0;
+
+
+
    while(d_player!='o'){
+
+
+
+    clear();
 	k++;
         //on lit le tableau
         for (int i=0;i<L;++i){
             for (int j=0;j<C;++j){
-                printf("%c", map_array[i][j]);
+                printw("%c", map_array[i][j]);
             }
         }
         printf("\n");
 
+
+        if (k>30) V=2;
 
         
         //on regarde autour de la balle
@@ -92,32 +100,29 @@ int main(int argc, char * argv[]){
         ball->up=map_array[ball->pos_y-1][ball->pos_x];
         
         
-        printf("down %c\n", map_array[ball->pos_y+1][ball->pos_x]);
-        printf("up %c\n", map_array[ball->pos_y-1][ball->pos_x]);
-        printf("left %c\n", map_array[ball->pos_y][ball->pos_x+1]);
-        printf("right %c\n", map_array[ball->pos_y][ball->pos_x-1]);
+        printw("down %c\n", map_array[ball->pos_y+1][ball->pos_x]);
+        printw("up %c\n", map_array[ball->pos_y-1][ball->pos_x]);
+        printw("left %c\n", map_array[ball->pos_y][ball->pos_x+1]);
+        printw("right %c\n", map_array[ball->pos_y][ball->pos_x-1]);
 
         //on change la direction 
-        if (ball->down=='n'){
-            ball->dir_y=-1;
-        } else if (ball->down=='-') break;
-        if (ball->up=='-' || ball->up=='n'){
-            ball->dir_y=1;
+        if (ball->down==PLAYER1){
+            ball->dir_y=-1*V;
+        } else if (ball->down==FRONTWALL) break;
+        if (ball->up==FRONTWALL || ball->up==PLAYER1){
+            ball->dir_y=1*V;
         }
-        if (ball->left=='*'){
-            ball->dir_x=1;
+        if (ball->left==SIDEWALL){
+            ball->dir_x=1*V;
         } 
-        if (ball->right=='*'){
-            ball->dir_x=-1;
+        if (ball->right==SIDEWALL){
+            ball->dir_x=-1*V;
         }
         
-        printf("1/!|/!|/!|/!|/!|/!|/!|/!|/!|");
-        printf("\ndir_x %d\n", ball->dir_x);
-        printf("dir_y %d\n", ball->dir_y);
 
 
-        //on update la position de la balle
-        
+
+        //on update la position de la balle        
         map_array[ball->pos_y][ball->pos_x]=' '; 
 
         ball->pos_x=(ball->pos_x)+ball->dir_x;
@@ -125,13 +130,9 @@ int main(int argc, char * argv[]){
         
         map_array[ball->pos_y][ball->pos_x]='O';
 
-        printf("2/!|/!|/!|/!|/!|/!|/!|/!|/!|");
-
-        printf("\npos_x %d\n", ball->pos_x);
-        printf("pos_y %d\n", ball->pos_y);
 
 
-
+        //refresh();
 
         
 
@@ -160,19 +161,25 @@ int main(int argc, char * argv[]){
 	if (d_player=='q') break;
 	if (d_player=='s') printf("ne se passe rien");
 	
-	//sleep(1);
+    
+
+
 	
-	printf("je suis passé %d fois dans le while 1\n", k);
-	
-        } 
+	printw("je suis passé %d fois dans le while 1\n", k);
+
+
+
+    refresh();
+
+    } 
 
     
-        printf("3/!|/!|/!|/!|/!|/!|/!|/!|/!|\n");
+
 
 
     
     
-
+    endwin();
 
 
 
@@ -190,17 +197,4 @@ int main(int argc, char * argv[]){
 }
 
 
-
-
-
-
-
-char direction(){
-    //fonction qui va recueillir les données transmises par le module bluetooth depuis le tel
-    char d='\0';
-    //ici c'est scanf, mais il s'agira d'une entrée GPIO
-    scanf("%c", &d);
-
-    return d;
-}
 
