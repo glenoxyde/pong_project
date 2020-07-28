@@ -1,8 +1,8 @@
 //pong.h avec les protoypes et types définis
 
-#define C 47 //colonnes
+#define C 48 //colonnes
 #define L 30 //lignes
-#define S 7 //platform size
+#define S 9 //platform size
 
 #define PLAYER1 'n'
 #define PLAYER2 'u'
@@ -35,7 +35,9 @@ typedef struct ball * ball;
 
 void printmap(char **);
 void move_ball(char **, ball);
-void move_player1(char ** , joueur);
-void init(char **, joueur, ball, FILE*, bool*);
-void dir_ball(char **, ball, bool *);
+void move_player1(char ** , joueur, int);
+void move_player2(char ** , joueur, ball);
+void move_player3(char ** , joueur, ball);
+void init(char **, joueur, joueur, ball, FILE*, bool*, bool*);
+void dir_ball(char **, ball, bool *, bool*, joueur, joueur);
 void freemap(char**);
